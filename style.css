@@ -1406,6 +1406,12 @@ label.slider.round:before {
 }
 
 @media (max-width: 768px) {
+    
+    .container {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
      #hero {
         /* Se l'altezza della finestra è MOLTO ridotta, allentiamo il min-height */
         min-height: 650px; 
@@ -1518,9 +1524,11 @@ label.slider.round:before {
         flex-basis: 100%;
     }
 
-    .container {
-        margin-left: 20px;
-        margin-right: 20px;
+    .carousel-control.prev {
+        visibility: hidden;
+    }
+    .carousel-control.next {
+        visibility: hidden;
     }
 
         .story-grid {
@@ -1545,6 +1553,9 @@ label.slider.round:before {
     .cta-actions {
         width: 90%;
         max-width: 350px;
+        justify-content: center;
+        align-items: center;
+        display: block;
     }
 
         .newsletter-form {
