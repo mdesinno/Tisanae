@@ -1420,6 +1420,15 @@ label.slider.round:before {
         padding: 15px 30px; 
         font-size: 1.1rem;
     }
+
+    #main-header .container{
+        padding: 0 0;
+    }
+
+    #main-header.scrolled .header-logo {
+    height: 40px; /* Riduci leggermente il logo quando si scorre */
+}
+
     
     /* 1. Mostra il pulsante Hamburger */
     .menu-toggle {
@@ -1451,6 +1460,7 @@ label.slider.round:before {
         padding: 10px 20px;
         width: 100%;
         text-align: center;
+        color: var(--colore-nero-testo);
     }
 
     /* Dai più risalto alla CTA Abbonati nel menu mobile */
@@ -1488,6 +1498,7 @@ label.slider.round:before {
         flex-direction: column;
         gap: 30px;
         align-items: center;
+        margin: 0 20px;
     }
     .piano-card {
         width: 90%;
@@ -1505,6 +1516,11 @@ label.slider.round:before {
     }
     .regalo-option-wrapper {
         flex-basis: 100%;
+    }
+
+    .container {
+        margin-left: 20px;
+        margin-right: 20px;
     }
 
         .story-grid {
