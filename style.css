@@ -1,0 +1,1581 @@
+/* Palette Colori */
+:root {
+    --oro: #D4AF37;
+    --crema: #FAF0E6;
+    --seppia: #2F1A0C;
+    --bordeaux: #800020;
+    --colore-oro: #C0A87A;
+    --colore-oro-scuro: #A37633;
+    --colore-crema: #FAF0E6;
+    --colore-nero-testo: #1e1e1e;
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Lato', sans-serif;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--crema);
+    color: var(--seppia);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2 {
+    font-family: var(--font-serif);
+    color: var(--oro);
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* -------------------- HEADER: FISSO, TRASFORMATIVO E REATTIVO -------------------- */
+
+#main-header {
+    background-color: transparent;
+    padding: 15px 0;
+    position: fixed; /* Rende l'header fisso in alto */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Assicura che l'header sia sopra gli altri contenuti */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+}
+
+/* Stile applicato da JS quando si scorre la pagina (Più compatto e con sfondo solido) */
+#main-header.scrolled {
+background: 
+        url('Img/Sfondo\ carta\ nera.jpg') center center no-repeat; /* <--- USA UNA TEXTURE SCURA */
+    background-size: cover;
+    opacity: 0.8;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.15);
+    padding: 10px 0; /* Riduci il padding verticale */
+}
+
+/* Contenitore per allineare gli elementi */
+#main-header .container {
+    display: flex;
+    justify-content: space-between; /* Sposta nav a destra e logo a sinistra */
+    align-items: center;
+    padding: 0 20px;   /* <--- QUESTA È LA CHIAVE! Aggiunge 20px di spazio laterale */
+}
+
+/* Stile per il Logo nell'Header */
+.header-logo {
+    height: 150px; /* Dimensione del logo standard */
+    transition: height 0.3s ease;
+}
+
+#main-header.scrolled .header-logo {
+    height: 80px; /* Riduci leggermente il logo quando si scorre */
+}
+
+/* Navigazione Desktop */
+#main-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Spazio tra i link */
+}
+
+#main-nav a {
+    color: var(--crema);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+#main-nav a:hover {
+    color: var(--oro);
+}
+
+/* CTA nell'Header (usa le regole di .cta-button già definite) */
+.nav-cta {
+    /* La classe nav-cta eredita lo stile base da .cta-button, 
+       ma la rendiamo più piccola qui per non competere con la Hero */
+    padding: 8px 15px; 
+    font-size: 0.95rem;
+}
+
+
+/* -------------------- HAMBURGER MENU (SOLO MOBILE) -------------------- */
+
+/* Nascondi il pulsante su desktop */
+.menu-toggle {
+    display: none; 
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+}
+
+/* Le 3 linee dell'hamburger */
+.menu-toggle .line {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px 0;
+    background-color: var(--seppia);
+    transition: all 0.3s ease;
+}
+
+/* Animazione in 'X' quando il menu è APERTO */
+.menu-toggle.open .line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.menu-toggle.open .line:nth-child(2) {
+    opacity: 0;
+}
+.menu-toggle.open .line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* CTA Button - IL FOCUS PER LE CONVERSIONI */
+.cta-button {
+    display: inline-block;
+    background-color: var(--oro);
+    color: var(--seppia); 
+    padding: 15px 35px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 3px solid var(--oro);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:hover {
+    background-color: var(--crema);
+    color: var(--seppia);
+    border-color: var(--oro);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* -------------------- HERO SECTION Styling Ottimizzata -------------------- */
+
+#hero {
+    /* Utilizza l'immagine di sfondo per creare un'atmosfera mistica.
+       CRUCIALE: Sostituisci 'hero-tisanae-sfondo.jpg' con il percorso della tua immagine di alta qualità. */
+    background: 
+        /* Overlay scuro per migliorare la leggibilità del testo CREMA/ORO e aggiungere mistero */
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), 
+        url('Img/hero-sfondo.jpg') center center no-repeat;
+    background-size: cover; 
+    background-position: center;
+    
+    /* Dimensioni e Centratura */
+    min-height: 80vh; /* L'Hero occupa almeno l'80% dell'altezza dello schermo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px;
+    text-align: center;
+    background-attachment: fixed; /* <--- QUESTO CREA L'EFFETTO PARALLAX */
+}
+
+/* Contenitore del testo per garantire che non sia troppo largo */
+.hero-content {
+    max-width: 800px;
+    padding: 20px;
+}
+
+/* Intestazione H1: Massimo Impatto e colore ORO sul fondo scuro */
+.hero-content h1 {
+    font-size: 3.8rem; 
+    color: var(--oro); 
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Ombra forte per il massimo risalto */
+}
+
+/* Slogan: Sotto-testo descrittivo in colore CREMA/Bianco Panna */
+.slogan {
+    font-size: 1.6rem; 
+    font-weight: 300;
+    margin-bottom: 40px;
+    font-style: italic;
+    color: var(--crema); /* Testo chiaro sullo sfondo scuro */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); 
+}
+
+/* Override delle regole CTA esistenti per la CTA primaria */
+.primary-cta {
+    /* La CTA primaria è già ben definita nel tuo CSS originale e la manteniamo */
+    padding: 18px 45px; /* Rende il bottone grande e prominente */
+    font-size: 1.2rem;
+}
+
+/* -------------------- SEZIONE COME FUNZIONA (PROCESSO) -------------------- */
+
+#come-funziona {
+    padding: 100px 0;
+    /* Sfondo scuro e testurizzato per mantenere l'atmosfera mistica */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), /* Overlay più forte */
+        url('Img/Box\ generica.jpg') center center no-repeat; /* <--- USA UNA TEXTURE SCURA */
+    background-size: cover; 
+    /* background-attachment: fixed; RIMOSSO per evitare conflitti */
+    
+    color: var(--crema); /* Testo base chiaro */
+    text-align: center;
+}
+
+/* Regola l'H1 e l'H2 all'interno di questa sezione */
+#come-funziona h1, #come-funziona h2, #come-funziona h3 {
+    color: var(--oro);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+.sezione-intro h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+}
+.intro-slogan {
+    font-size: 1.3rem;
+    font-style: italic;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    color: var(--crema);
+}
+
+.oro-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--oro);
+    width: 60%;
+    margin: 50px auto;
+    opacity: 0.5;
+}
+
+.processo-grid {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Allinea gli elementi in alto */
+    gap: 20px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+/* Processo Grid (Mantieni le regole del Processo Grid precedente, ma aggiungi il colore chiaro) */
+.processo-step {
+    /* Mantieni lo stile precedente, ma assicurati che il testo sia leggibile su sfondo scuro */
+    background: rgba(255, 255, 255, 0.05); /* Sfondo quasi invisibile */
+    border: 1px solid rgba(212, 175, 55, 0.2); /* Bordo ORO sottile */
+    color: var(--crema);
+}
+.processo-step p {
+    color: var(--crema);
+}
+
+.processo-step h3 {
+    color: var(--seppia);
+    font-size: 1.4rem;
+    margin-top: 10px;
+}
+
+.processo-separatore {
+    font-size: 3rem;
+    color: var(--oro);
+    align-self: center; /* Allinea il separatore al centro tra i box */
+    margin: 0 10px;
+}
+
+/* Dettaglio del Contenuto Grid */
+.dettaglio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.section-title-alt {
+    margin-bottom: 20px;
+}
+
+.slogan-details {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--crema); /* Colore d'Accento per la frase chiave */
+    margin-bottom: 50px;
+}
+
+/* Stile per le icone della sezione 'Cosa Troverai nella Box' */
+.dettaglio-item i.fas {
+    font-size: 1.5rem; /* Rende le icone ben visibili */
+    color: var(--crema); /* Il colore di accento mistico */
+    margin-bottom: 15px;
+    display: block; /* Assicura che l'icona sia un blocco separato */
+    /* Aggiungi un leggero effetto ombra per farle 'brillare' sullo sfondo scuro */
+    filter: drop-shadow(0 0 2px rgba(255, 204, 0, 0.4)); 
+}
+.dettaglio-item h3 {
+    font-size: 1.3rem;
+    margin-top: 0;
+}
+.dettaglio-item p {
+    color: var(--crema);
+}
+
+/* -------------------- 4. SEZIONE GRIMORIO (LUXURY DARK MODE) -------------------- */
+
+#grimorio {
+    padding: 100px 0;
+    /* Sfondo scuro e profondo (Seppia) per coerenza con l'atmosfera del Grimorio */
+    background-color: var(--crema); 
+    color: var(--seppia); /* Testo chiaro su sfondo scuro */
+    text-align: center;
+}
+
+#grimorio h2 {
+    /* Titolo ORO che risalta sul Seppia */
+    color: var(--oro);
+    margin-bottom: 50px;
+}
+
+.grimorio-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    text-align: left;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Immagine con bordo ORO (simula una cornice antica) */
+.grimorio-img-float {
+    max-width: 45%;
+    height: auto;
+    border-radius: 5px;
+    border: 3px solid var(--oro); /* Bordo ORO elegante */
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); /* Bagliore ORO */
+    order: 2; 
+}
+
+.grimorio-text {
+    flex-basis: 55%;
+    order: 1; 
+}
+
+.grimorio-text p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    color: var(--seppia); /* Testo in colore Crema */
+}
+
+/* CTA Terziaria (Meno aggressiva della Primary) */
+.tertiary-cta {
+    background-color: transparent;
+    color: var(--oro);
+    border: 2px solid var(--oro);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.tertiary-cta:hover {
+    background-color: var(--oro);
+    color: var(--seppia); /* Invertiamo i colori per l'hover */
+    transform: translateY(-2px);
+}
+
+/* --- Sezione Carosello Grimorio --- */
+#grimorio-slider {
+    padding: 60px 20px;
+    background:         radial-gradient(circle at center, 
+            rgba(0, 0, 0, 0.9) 0%,   /* Al centro: nero molto trasparente (20% opacità) */
+            rgba(0, 0, 0, 0.4) 60%,  /* A 80% dal centro: nero più scuro (60% opacità) */
+            rgba(0, 0, 0, 0.1) 100%  /* Ai bordi: nero quasi opaco (80% opacità) */
+        ), url('Img/Logo\ Tisanaé\ sfondo\ nero.png') center center no-repeat; /* RIPRISTINATO IL TUO SFONDO GENERALE */
+    background-size: cover; 
+    color: var(--colore-crema); 
+    text-align: center;
+}
+
+#grimorio-slider h2 {
+    color: var(--colore-oro); 
+    margin-bottom: 5px;
+}
+
+.sottotitolo {
+    margin-bottom: 40px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Nuovo Contenitore per l'intero Carosello */
+.carousel-container {
+    max-width: 800px; /* Larghezza maggiore per contenere frecce e card */
+    margin: 0 auto;
+    position: relative;
+    display: flex; /* Permette di allineare frecce e wrapper */
+    align-items: center; /* Centra verticalmente frecce e wrapper */
+    padding: 0 40px; /* Spazio per le frecce ai lati */
+}
+
+.carousel-wrapper {
+    flex-grow: 1; /* Permette al wrapper di occupare lo spazio disponibile tra le frecce */
+    max-width: 600px; /* Larghezza massima per le card */
+    margin: 0 auto; /* Centra il wrapper all'interno del container */
+    position: relative;
+    overflow: hidden; /* Nasconde gli elementi non attivi */
+    border-radius: 8px; /* Per gli angoli arrotondati delle card */
+    /* Nessun bordo qui, il bordo sarà sulla card stessa per l'effetto fluttuante */
+    /* Nessun padding qui, il padding va sulla singola card */
+    box-shadow: 10px 10px 30px 0 rgba(255, 255, 255, 0.6); /* Ombra più scura e definita per "staccare" */
+    border-left: 1px solid var(--colore-nero-testo);
+    border-top: 1px solid var(--colore-nero-testo);
+        transition: transform 0.4s ease-out, box-shadow 0.4s ease-out; /* <-- AGGIUNGI O VERIFICA QUESTO */
+    transform: scale(1); /* Stato iniziale */
+}
+
+.carousel-wrapper:hover {
+    transform: scale(1.05);
+    transition: opacity 0.5s ease-in-out, transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; /* Transizioni per animazione */
+
+}
+
+/* Stile e Posizionamento Frecce */
+/* Stile e Posizionamento Frecce (relative al carousel-container) */
+.carousel-control {
+    position: absolute; /* Ora relativo al .carousel-container */
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--crema);
+    font-size: 2.5em; /* Un po' più grandi */
+    cursor: pointer;
+    padding: 0 10px;
+    z-index: 15; /* Molto alto per essere sopra tutto */
+    opacity: 0.8;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.carousel-control:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1); /* Piccola animazione al hover */
+}
+
+.carousel-control.prev {
+    left: 0; /* Rimane sul bordo sinistro del carousel-container */
+}
+
+.carousel-control.next {
+    right: 0; /* Rimane sul bordo destro del carousel-container */
+}
+
+/* Contenuto del Carosello */
+.carousel-content {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* CRUCIALE: Per l'animazione dello scorrimento */
+}
+
+/* Stili per le singole "Card" del Carosello */
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 30px 20px; 
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out; /* Transizioni per animazione */
+    display: none; 
+
+    /* Stili per l'immagine di sfondo */
+    background-size: cover; 
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative; 
+    min-height: 280px; 
+    border-radius: 8px; 
+
+    /* Flexbox per centrare il contenuto testuale */
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+
+    /* Stili per l'effetto "Card Staccata" */
+    background-color: rgba(20, 20, 20, 0.9); /* Sfondo scuro quasi opaco per la card */
+    border: 1px solid var(--colore-oro-scuro); /* Bordo dorato più visibile */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Ombra più scura e definita per "staccare" */
+    
+    /* Assicuriamo che la card non si ingrandisca troppo e vada fuori */
+    transform: scale(1); /* Inizia con dimensione normale */
+}
+
+
+/* Pseudo-elemento per il filtro scuro (Overlay) sopra l'immagine */
+.carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45); /* Opacità aumentata per leggibilità sul tuo sfondo */
+    z-index: 1; 
+    border-radius: 8px; 
+}
+
+/* Assicurati che tutto il contenuto testuale sia sopra l'overlay */
+.carousel-item > * { 
+    position: relative;
+    z-index: 2; 
+    color: var(--colore-crema); 
+}
+
+.carousel-item.attivo {
+    opacity: 1;
+    display: flex; /* Solo l'attivo è visibile */
+}
+
+.carousel-item h4 {
+    color: var(--colore-crema);
+    font-size: 1.8em;
+    margin: 10px 0;
+}
+
+/* Badge di Stato */
+.status-badge {
+    display: inline-block;
+    background-color: var(--colore-oro-scuro);
+    color: var(--colore-nero-testo);
+    padding: 5px 10px;
+    font-size: 0.8em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Indicatori di Navigazione (sotto il carosello) */
+.carousel-nav {
+    position: absolute; /* Posizionamento assoluto rispetto al .carousel-container */
+    bottom: -40px; /* Sotto le card */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px; /* Puoi rimuoverlo se non necessario */
+    z-index: 10;
+}
+
+.nav-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nav-dot.attivo {
+    background-color: var(--colore-oro);
+}
+
+/* --- Sfondi Specifici per Ogni Box del Carosello --- */
+
+/* 1. Dee della Luna (data-capitolo="attuale") */
+.carousel-item[data-capitolo="attuale"] {
+    background-image: url('Img/Box\ Dee.png'); 
+}
+
+/* 2. I Samurai (data-capitolo="samurai") */
+.carousel-item[data-capitolo="samurai"] {
+    background-image: url('Img/Box\ Samurai.png');
+}
+
+/* 3. I Druidi (data-capitolo="druidi") */
+.carousel-item[data-capitolo="druidi"] {
+    background-image: url('Img/Box\ Druidi.png');
+}
+
+/* --- Stili per la nuova area della Gift Box sotto lo slider --- */
+.gift-box-area {
+    margin-top: 80px; /* Spazio tra il carosello e la sezione gift box */
+    padding: 40px 20px;
+    
+    /* BACKGROUND e OVERLAY PERSONALIZZATI PER LA GIFT BOX */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), /* Overlay scuro per leggibilità */
+        url('Img/Gift\ Box.png') center center no-repeat; /* <-- INSERISCI QUI IL NOME DELLA TUA IMMAGINE GIFT BOX */
+    background-size: cover; 
+    background-position: center center;
+    background-repeat: no-repeat;
+    
+    border-radius: 8px;
+    max-width: 700px; /* Un po' più grande del carousel-wrapper (600px) per contenere più info */
+    margin-left: auto;
+    margin-right: auto;
+    
+    /* Riprende lo stile del bordo e dell'ombra del carousel-wrapper/item */
+    box-shadow: 10px 10px 30px 0 rgba(255, 255, 255, 0.6); /* Ombra dal carousel-wrapper */
+    border-left: 1px solid var(--colore-nero-testo); /* Bordo dal carousel-wrapper */
+    border-top: 1px solid var(--colore-nero-testo); /* Bordo dal carousel-wrapper */
+
+    position: relative; /* Necessario per l'overlay e il z-index */
+    overflow: hidden; /* Per contenere l'immagine di sfondo con bordi arrotondati */
+
+    /* Animazione Hover per la Gift Box (simile al carousel-wrapper) */
+    transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+    transform: scale(1); /* Stato iniziale */
+}
+
+/* Overlay per la Gift Box (simile a .carousel-item::before) */
+.gift-box-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45); /* Stessa opacità dei carousel-item */
+    z-index: 1; 
+    border-radius: 8px; 
+}
+
+/* Hover effect per la Gift Box */
+.gift-box-area:hover {
+    transform: scale(1.02); /* Leggero zoom in */
+    box-shadow: 15px 15px 40px 0 rgba(255, 255, 255, 0.8); /* Ombra più pronunciata */
+}
+
+
+.gift-box-area h3 {
+    color: var(--colore-oro); 
+    font-size: 2.2em; 
+    margin-bottom: 10px;
+    position: relative; z-index: 2; /* Sopra l'overlay */
+}
+
+.gift-box-area .sottotitolo {
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.7);
+    position: relative; z-index: 2; /* Sopra l'overlay */
+}
+
+/* Contenuto della card */
+.gift-card-content {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; /* Centra il contenuto della card */
+    gap: 20px; /* Ridotto leggermente il gap se non c'è immagine laterale */
+    padding: 20px 0; /* Padding verticale all'interno della card */
+    position: relative; z-index: 2; /* Sopra l'overlay */
+}
+
+/* Dettagli all'interno della card */
+.gift-box-details {
+    max-width: 500px; /* Larghezza massima per il testo */
+    text-align: center; /* Centra il testo */
+}
+
+.gift-box-details h4 {
+    color: var(--colore-crema);
+    font-size: 1.8em;
+    margin: 10px 0;
+}
+
+/* Assicurati che il badge e il bottone siano sopra l'overlay */
+.status-badge, .btn-dettagli {
+    position: relative;
+    z-index: 2;
+}
+
+/* -------------------- 5. SEZIONE PRICING E PACCHETTI (CSS FINALE) -------------------- */
+
+#abbonamento-piani {
+    padding: 100px 0;
+    background-color: var(--crema); 
+    text-align: center;
+}
+
+#abbonamento-piani h2 {
+    color: var(--seppia);
+    margin-bottom: 10px;
+}
+
+.sottotitolo-piani {
+    font-size: 1.2rem;
+    color: var(--seppia);
+    margin-bottom: 50px;
+}
+
+.piani-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.piano-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Ridotto leggermente per 3 colonne */
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.piano-card:hover {
+    transform: translateY(-5px);
+}
+
+.piano-card h3 {
+    font-family: var(--font-serif);
+    color: var(--seppia);
+    font-size: 1.8rem;
+    margin-top: 0;
+}
+
+.frequenza {
+    font-style: italic;
+    color: var(--bordeaux);
+    margin-bottom: 20px;
+}
+
+/* Prezzo - Enfatizzato */
+.prezzo {
+    margin: 25px 0;
+    line-height: 1;
+}
+.costo-euro {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: var(--oro);
+    display: block;
+}
+.costo-periodo {
+    font-size: 1rem;
+    color: var(--seppia);
+    display: block;
+    margin-top: 5px;
+}
+
+/* Vantaggi */
+.vantaggi {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    text-align: left;
+}
+.vantaggi li {
+    padding: 8px 0;
+    font-size: 1rem;
+    color: var(--seppia);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+.check-oro {
+    color: var(--oro);
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+/* Focus sul Piano Migliore */
+.focus-card {
+    border: 3px solid var(--oro); 
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+    transform: scale(1.05); 
+    padding-top: 50px; 
+}
+
+.focus-card:hover {
+    transform: scale(1.08); 
+}
+
+.tag-popolare {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--bordeaux);
+    color: var(--crema);
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* -------------------- SEZIONE REGALO (MODIFICATO) -------------------- */
+
+.sezione-regalo {
+    max-width: 900px; /* Allarghiamo un po' */
+    margin: 80px auto 0; /* Più margine in alto per staccare dalle card */
+    padding: 30px 40px;
+    
+    /* Rimuoviamo lo sfondo scuro per fonderlo con il Pricing */
+    background-color: white; 
+    border-radius: 10px;
+    /* Aggiungiamo un box shadow leggero e oro per differenziare, ma senza spigoli netti */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    color: var(--seppia); /* Testo scuro sul fondo bianco */
+}
+
+.sezione-regalo:hover {
+    transform: translateY(-5px);
+}
+
+.sezione-regalo h3 {
+    color: var(--oro); /* Titolo ORO */
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.regalo-slogan {
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-style: italic;
+    color: var(--seppia);
+    margin-bottom: 30px;
+}
+
+.regalo-options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.regalo-option-wrapper {
+    flex-basis: 40%;
+    text-align: center;
+}
+
+.dettaglio-regalo {
+    font-size: 0.9rem;
+    color: var(--bordeaux); /* Colore secondario per il disclaimer */
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Modifica i bottoni SECONDARY per farli risaltare sul bianco */
+.secondary-cta {
+    background-color: var(--oro);
+    color: var(--seppia);
+    border: 2px solid var(--oro);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.secondary-cta:hover {
+    background-color: transparent;
+    color: var(--oro);
+}
+
+/* --- Sezione La Nostra Storia --- */
+#la-storia {
+    padding: 80px 20px;
+    background-color: var(--colore-crema); /* Sfondo chiaro per questa sezione */
+    text-align: center;
+    color: var(--colore-nero-testo); /* Testo scuro su sfondo chiaro */
+}
+
+#la-storia h2 {
+    color: var(--colore-bordeaux); /* Titolo principale in bordeaux scuro */
+    font-size: 2.8em;
+    margin-bottom: 15px;
+}
+
+#la-storia .sottotitolo {
+    font-size: 1.1em;
+    color: var(--colore-grigio-testo);
+    margin-bottom: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.story-grid {
+    display: flex;
+    flex-wrap: wrap; /* Permette agli elementi di andare a capo */
+    justify-content: center; /* Centra gli elementi sulla riga */
+    gap: 40px; /* Spazio tra gli elementi */
+    max-width: 1200px; /* Limita la larghezza massima della griglia */
+    margin: 0 auto;
+}
+
+.story-item {
+    flex: 1 1 300px; /* Cresce, non si restringe, dimensione base 300px */
+    max-width: 350px; /* Larghezza massima per evitare item troppo larghi su schermi grandi */
+    padding: 30px;
+    background-color: var(--colore-bianco); /* Sfondo bianco per ogni card */
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Ombra leggera per un effetto "staccato" */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.story-item:hover {
+    transform: translateY(-8px); /* Solleva leggermente al hover */
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15); /* Ombra più pronunciata */
+}
+
+.story-item h3 {
+    color: var(--colore-oro); /* Titoli delle card in oro */
+    font-size: 1.6em;
+    margin-bottom: 15px;
+}
+
+.story-item p {
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--colore-grigio-testo);
+}
+
+/* -------------------- 8. SEZIONE FAQ -------------------- */
+
+#faq {
+    background: 
+        url('Img/Sfondo\ carta\ nera.jpg') center center no-repeat; /* <--- USA UNA TEXTURE SCURA */
+    background-size: cover;
+    padding: 80px 20px;
+    background-color: var(--crema);
+    color: var(--seppia);
+    text-align: center;
+}
+
+#faq h2 {
+    color: var(--crema);
+    margin-bottom: 40px;
+}
+
+.faq-container {
+    max-width: 900px;
+    margin: 0 auto 50px;
+    text-align: left;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--crema);
+    padding: 15px 0;
+}
+
+.faq-item summary {
+    font-size: 1.15rem;
+    font-weight: bold;
+    cursor: pointer;
+    list-style: none; /* Nasconde la freccia di default */
+    padding-left: 20px;
+    position: relative;
+    color: var(--crema);
+}
+
+/* Freccia custom ORO */
+.faq-item summary::before {
+    content: '▶';
+    font-size: 0.8rem;
+    color: var(--oro);
+    position: absolute;
+    left: 0;
+    transition: transform 0.2s ease;
+}
+
+.faq-item[open] summary::before {
+    transform: rotate(90deg);
+}
+
+.faq-content {
+    padding: 10px 0 10px 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--crema);
+}
+
+/* -------------------- 6. SEZIONE CTA FINALE -------------------- */
+
+#cta-finale {
+    padding: 100px 0;
+    /* Richiama l'estetica Scuro/Misteriosa/Lusso */
+    background-color: rgba(255, 255, 255, 1); 
+    color: var(--seppia);
+    text-align: center;
+}
+
+#cta-finale h2 {
+    color: var(--oro);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+#cta-finale p {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 50px;
+}
+
+.cta-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Enfatizza il pulsante principale (puoi usare un font più grande) */
+.giant-cta {
+    padding: 18px 40px;
+    font-size: 1.3rem;
+}
+
+/* Assicurati che i pulsanti secondari siano visibili sul Seppia */
+.cta-actions {
+    background-color: transparent;
+    color: var(--seppia);
+}
+.cta-actions :hover {
+    background-color: var(--crema);
+    color: var(--seppia);
+}
+
+/* -------------------- AGGIUNTE CSS PER NEWSLETTER -------------------- */
+
+.oro-divider-small {
+    border: none;
+    height: 1px;
+    background-color: var(--oro);
+    width: 20%;
+    margin: 60px auto 40px; /* Spazio sopra e sotto il separatore */
+    opacity: 0.5;
+}
+
+.newsletter-signup {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.newsletter-slogan {
+    font-size: 1.1rem;
+    color: var(--seppia);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.newsletter-form input[type="email"] {
+    padding: 15px;
+    border: 1px solid var(--oro);
+    border-radius: 15px;
+    width: 60%;
+    max-width: 350px;
+    background-color: rgba(255, 255, 255, 0.1); /* Leggermente trasparente */
+    color: var(--seppia);
+    font-size: 1rem;
+}
+
+.newsletter-form input[type="email"]::placeholder {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.quartiary-cta:hover {
+    background-color: var(--oro);
+}
+
+/* -------------------- 9. FOOTER -------------------- */
+
+footer {
+    padding: 60px 20px 20px;
+background: 
+        url('Img/Sfondo\ carta\ nera.jpg') center center no-repeat; /* <--- USA UNA TEXTURE SCURA */
+    background-size: cover;    color: var(--crema);
+}
+
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap; /* Permette il wrap su schermi più piccoli */
+}
+
+.footer-col {
+    flex-basis: 22%; /* Distribuzione uniforme */
+    min-width: 150px; /* Minimo per mobile */
+}
+
+.footer-logo {
+    height: 150px; /* Dimensione del logo nel footer */
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.4)); /* Effetto Oro */
+    padding-left: 25px;
+}
+
+.brand-info .slogan-footer {
+    font-size: 0.9rem;
+    color: var(--oro);
+    margin-bottom: 20px;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+.copyright a {
+    /* Imposta il colore di base del link su CREMA o BIANCO (perché è su sfondo scuro/seppia) */
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none; /* Rimuove la sottolineatura di default */
+    transition: color 0.3s;
+}
+
+.copyright a:hover,
+.copyright a:focus, /* <-- MANTIENE IL COLORE QUANDO L'ELEMENTO È SELEZIONATO O CLICCATO TAB */
+.copyright a:active {
+    /* Colore che appare quando l'utente passa il mouse sopra (il tuo accento ORO) */
+    color: var(--oro) !important; 
+    /* Opzionale: rimetti la sottolineatura su hover per feedback visivo */
+    text-decoration: none; 
+}
+
+/* Regola per i link visitati: li mantiene uguali ai link non visitati */
+.copyright a:visited {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+footer h4 {
+    color: var(--oro);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer ul li a {
+    color: var(--crema);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 2;
+    transition: color 0.3s;
+}
+
+footer ul li a:hover {
+    color: var(--oro);
+}
+
+/* Stile Social Media */
+.social-links a {
+    display: block;
+    color: var(--crema);
+    text-decoration: none;
+    font-size: 0.9rem;
+    line-height: 2;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--oro);
+}
+
+/* Nuovo Stile per le icone di Font Awesome */
+.social-links .fab {
+    margin-right: 8px;
+    color: var(--oro); /* Mantiene il colore oro */
+    font-size: 1.1em; /* Leggermente più grande del testo */
+}
+
+/* -------------------- BANNER COOKIE FISSO -------------------- */
+
+#cookie-banner {
+    display: none; /* Inizialmente nascosto da JavaScript se i cookie sono accettati */
+    position: fixed; /* Lo tiene in posizione fissa anche durante lo scrolling */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Colori in linea con il brand: Scuro (Seppia) con testo chiaro */
+    background-color: rgba(0, 0, 0, 0.8); 
+    color: var(--crema);
+    
+    padding: 15px 20px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* Assicurati che sia sopra ogni altro elemento */
+}
+
+.cookie-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Per la visualizzazione mobile */
+}
+
+.cookie-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding-right: 20px;
+}
+
+.cookie-content a {
+    color: var(--oro); /* Rendi il link alla policy ben visibile */
+    text-decoration: underline;
+}
+
+.cookie-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px; /* Spazio per il mobile */
+}
+
+/* -------------------- MODAL DI PERSONALIZZAZIONE (V2) -------------------- */
+
+#customize-modal {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* SFONDO NERO 0.8: Garantisce la discrezione richiesta */
+    z-index: 2000; 
+    padding-top: 5vh; /* Centrato leggermente più in alto */
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.8); 
+    color: var(--crema);
+    width: 90%;
+    max-width: 450px; /* Reso più stretto */
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.modal-content h2 {
+    color: var(--oro);
+    text-align: center;
+    margin-bottom: 5px;
+}
+.modal-content .description {
+    text-align: center;
+    font-size: 0.9em;
+    margin-bottom: 25px;
+}
+
+/* Stile per i gruppi di cookie (etichetta + switch) */
+.cookie-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Divisore sottile */
+}
+.cookie-group:last-of-type {
+    border-bottom: none;
+    margin-bottom: 30px;
+}
+
+/* -------------------- STILE SWITCH TOGGLE -------------------- */
+
+.cookie-group input[type="checkbox"] {
+    display: none; /* Nasconde la checkbox di default */
+}
+
+label.slider {
+    position: relative;
+    cursor: pointer;
+    background-color: #ccc; /* Colore default (OFF) */
+    transition: 0.4s;
+    width: 40px;
+    height: 20px;
+}
+
+label.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+}
+
+label.slider.round {
+    border-radius: 20px;
+}
+
+label.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Stato Checked (ON) */
+.cookie-group input:checked + label.slider {
+    background-color: var(--oro); /* Il colore dello switch ON è l'Oro */
+}
+
+.cookie-group input:checked + label.slider:before {
+    transform: translateX(20px);
+}
+
+/* Stato Disabilitato (per i cookie Essenziali) */
+.cookie-group input:disabled + .disabled-slider {
+    background-color: #666 !important; /* Grigio scuro per indicare "non cliccabile" */
+    cursor: default;
+}
+.cookie-group.essential-group label {
+    font-weight: bold;
+}
+
+/* -------------------- STILE AZIONI MODAL (Pulsanti Discreti) -------------------- */
+
+.modal-actions {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Stile per il link "Salva Preferenze" (discreto) */
+.save-link {
+    /* Mantenuto discreto, ma con il colore del tuo accento */
+    color: var(--oro); 
+    text-decoration: none; 
+    font-weight: bold;
+    transition: transform 0.2s, color 0.2s;
+    padding: 5px 10px;
+}
+.save-link:hover {
+    color: var(--crema);
+    transform: scale(1.05); /* Effetto discreto in hover */
+}
+
+.close-link {
+    /* Mantenuto discreto, ma con il colore del tuo accento */
+    color: var(--crema) !important; 
+    text-decoration: none; 
+    font-weight: bold;
+    transition: transform 0.2s, color 0.2s;
+    padding: 5px 10px;
+}
+.close-link:hover {
+    color: var(--oro) !important;
+    transform: scale(1.05); /* Effetto discreto in hover */
+}
+
+/* Stile per il link "Chiudi senza salvare" */
+
+.crema-link {
+    /* Forzato al colore crema per non farlo apparire blu/viola */
+    color: var(--crema); 
+    text-decoration: underline;
+}
+.crema-link:hover {
+    color: var(--oro);
+}
+
+.cookie-link {
+    /* Forzato al colore crema per non farlo apparire blu/viola */
+    color: var(--oro) !important; 
+    text-decoration: underline;
+}
+.cookie-link:hover {
+    color: var(--crema) !important;
+}
+
+
+
+
+
+/* -------------------- ANIMAZIONI (Gestite da JS) -------------------- */
+/* Stato iniziale (Nascosto e leggermente spostato verso il basso) */
+.fade-in {
+    opacity: 0;
+    /* Sposta l'elemento di 30px in giù */
+    transform: translateY(30px); 
+    /* Applica la transizione sia all'opacità che al movimento (1 secondo) */
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+/* Stato finale (Visibile e nella posizione originale) */
+.fade-in.visible {
+    opacity: 1;
+    /* Riporta l'elemento alla sua posizione normale */
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+     #hero {
+        /* Se l'altezza della finestra è MOLTO ridotta, allentiamo il min-height */
+        min-height: 650px; 
+    }
+    .hero-content h1 {
+        font-size: 2.5rem; /* Riduci dimensione H1 */
+    }
+    .slogan {
+        font-size: 1.2rem; /* Riduci dimensione Slogan */
+    }
+    .primary-cta {
+        padding: 15px 30px; 
+        font-size: 1.1rem;
+    }
+    
+    /* 1. Mostra il pulsante Hamburger */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* 2. Nascondi la navigazione per default */
+    #main-nav {
+        display: none;
+        /* Proprietà per il menu aperto a schermo intero */
+        position: absolute;
+        top: 60px; /* Sotto l'header */
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: var(--crema);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px 0;
+        border-top: 1px solid var(--oro);
+    }
+    
+    /* 3. Mostra la navigazione quando la classe 'open' viene aggiunta da JS */
+    #main-nav.open {
+        display: flex;
+    }
+    
+    /* Regola lo spazio interno ai link nel menu mobile */
+    #main-nav a {
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Dai più risalto alla CTA Abbonati nel menu mobile */
+    .nav-cta {
+        margin-top: 15px;
+        width: 80%; /* Rendi il bottone CTA quasi a piena larghezza */
+        align-self: center;
+    }
+    .processo-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .processo-separatore {
+        display: none; /* Nascondi la freccia su mobile */
+    }
+    .processo-step {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
+
+        .grimorio-content {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+    .grimorio-img-float {
+        max-width: 90%;
+        order: 1; 
+    }
+    .grimorio-text {
+        order: 2;
+    }
+
+    .piani-grid {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+    }
+    .piano-card {
+        width: 90%;
+        max-width: 400px;
+    }
+    .focus-card {
+        transform: scale(1.02);
+    }
+    .focus-card:hover {
+        transform: scale(1.05); 
+    }
+    .regalo-options {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .regalo-option-wrapper {
+        flex-basis: 100%;
+    }
+
+        .story-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .story-item {
+        max-width: 90%; /* Occupa quasi tutta la larghezza su mobile */
+    }
+    #la-storia h2 {
+        font-size: 2.2em;
+    }
+
+        .cta-actions {
+        flex-direction: column;
+    }
+    .giant-cta {
+        width: 90%;
+        max-width: 350px;
+        margin-bottom: 10px;
+    }
+    .cta-actions {
+        width: 90%;
+        max-width: 350px;
+    }
+
+        .newsletter-form {
+        flex-direction: column;
+        align-items: center;
+    }
+    .newsletter-form input[type="email"], .subscribe-button {
+        width: 90%;
+        max-width: 400px;
+    }
+    .subscribe-button {
+        margin-top: 10px;
+    }
+
+    .storia-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-grid {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-col {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+    }
+    .quick-links ul, .legal-links ul {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .quick-links ul li, .legal-links ul li {
+        margin: 0 5px;
+    }
+    .social-links a {
+        display: inline-block;
+        margin: 0 10px;
+    }
+
+        .cookie-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .cookie-content p {
+        padding-right: 0;
+        margin-bottom: 10px;
+    }
+}
