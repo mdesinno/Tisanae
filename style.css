@@ -1099,7 +1099,7 @@ background:
 /* Stile per messaggio di successo */
 .newsletter-feedback.success {
     background-color: var(--oro); /* Sfondo verde per successo */
-    color: var(--nero); /* Testo scuro per contrasto */
+    color: #000; /* Testo scuro per contrasto */
     opacity: 1; /* Rendi visibile */
     max-height: 100px; /* Altezza massima per mostrare il messaggio */
     padding: 10px 15px; /* Ri-applica padding quando visibile */

@@ -471,11 +471,28 @@ initGrimorioCarousel();
                 newsletterFeedback.innerHTML = 'C\'è stato un problema di rete. Riprova più tardi.';
             } finally {
                 // Mostra il messaggio con un piccolo ritardo per l'animazione
+                 setTimeout(() => {
+                newsletterFeedback.style.opacity = 1;
+                newsletterFeedback.style.maxHeight = '100px';
+                newsletterFeedback.style.padding = '10px 15px'; // Rendi visibile il padding
+
+                // NUOVA AGGIUNTA: NASCONDI IL MESSAGGIO DOPO 4 SECONDI
+                const HIDE_DELAY = 4000; // 4000 millisecondi = 4 secondi
+                
                 setTimeout(() => {
-                    newsletterFeedback.style.opacity = 1;
-                    newsletterFeedback.style.maxHeight = '100px'; // Assicurati che l'altezza sia sufficiente
-                }, 50); // Piccolo ritardo
-            }
-        });
-    }
+                    newsletterFeedback.style.opacity = 0;
+                    newsletterFeedback.style.maxHeight = '0';
+                    newsletterFeedback.style.padding = '0'; // Rimuovi il padding
+                    // Togli la classe 'success' o 'error' alla fine della transizione CSS (0.5s)
+                    setTimeout(() => {
+                        newsletterFeedback.classList.remove('success', 'error');
+                        newsletterFeedback.innerHTML = ''; // Pulisci il contenuto
+                    }, 500); 
+                    
+                }, HIDE_DELAY); 
+                
+            }, 50); // Piccolo ritardo iniziale per l'animazione SHOW
+        }
+    });
+}
 });
