@@ -49,6 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
             mainNav.classList.toggle('open');
             const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
             menuToggle.setAttribute('aria-expanded', !isExpanded);
+            // Aggiungi/rimuovi una classe sul body per bloccare lo scroll quando il menu è aperto
+            document.body.classList.toggle('no-scroll'); // useremo questa classe nel CSS
+        });
+        // Logica di chiusura quando si clicca su un link del menu
+        const navLinks = mainNav.querySelectorAll('a[href^="#"]'); // Seleziona solo i link che puntano a un ID (scroll sulla stessa pagina)
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                // Chiudi il menu mobile
+                mainNav.classList.remove('open');
+                // Riporta l'hamburger allo stato di default
+                menuToggle.classList.remove('open');
+                // Aggiorna l'attributo aria-expanded per l'accessibilità
+                menuToggle.setAttribute('aria-expanded', 'false');
+                // Rimuovi la classe dal body per sbloccare lo scroll
+                document.body.classList.remove('no-scroll');
+
+                // Opzionale: Se hai uno smooth scroll personalizzato via JS,
+                // potresti voler aggiungere un piccolo setTimeout qui prima di chiudere
+                // il menu, per dare il tempo allo smooth scroll di iniziare.
+                // Per ora, lo lasciamo senza setTimeout, che è il comportamento più comune.
+            });
         });
     }
 
@@ -216,7 +238,7 @@ if (modalClose) {
 }
 
 // ==================================================================
-// 5. GESTIONE CAROSELLO GRIMORIO (SLIDER + SWIPE MOBILE)
+// 5. GESTIONE CAROSELLO GRIMORIO (SLIDER + SWIPE MOBILE) - AGGIORNATO
 // ==================================================================
 
 function initGrimorioCarousel() {
@@ -226,15 +248,35 @@ function initGrimorioCarousel() {
     const navDots = document.querySelectorAll('.carousel-nav .nav-dot');
     const carouselItems = document.querySelectorAll('.carousel-wrapper .carousel-item');
     const carouselWrapper = document.querySelector('.carousel-wrapper'); 
-    const carouselContent = document.querySelector('.carousel-content'); // NUOVO: Riferimento al contenitore delle slide
+    const carouselContent = document.querySelector('.carousel-content'); 
+    
+    // --- VARIABILI AUTOPLAY E PAUSA ---
+    let autoPlayInterval;
+    const autoPlayTime = 5000; // 5 secondi
+    let isPaused = false; // Flag per sapere se l'utente ha interagito manualmente
 
     // Variabili per il calcolo dello swipe
     let touchstartX = 0;
     let touchendX = 0;
 
-    // Mappa dei capitoli per la navigazione sequenziale (DEVE CORRISPONDERE AI data-capitolo nell'HTML)
+    // Mappa dei capitoli per la navigazione sequenziale
     const capitoliSequenza = ['attuale', 'samurai', 'druidi'];
 
+    // Funzione per avviare l'autoplay
+    function startAutoplay() {
+        if (!isPaused) {
+            stopAutoplay(); // Evita intervalli duplicati
+            autoPlayInterval = setInterval(() => {
+                changeSlide('left'); // Avanza alla slide successiva
+            }, autoPlayTime);
+        }
+    }
+
+    // Funzione per fermare l'autoplay
+    function stopAutoplay() {
+        clearInterval(autoPlayInterval);
+    }
+    
     // Funzione per aggiornare lo stato di tutte le slide E FARLE SCORRERE
     function updateCarousel(slideData) {
         // 1. Rimuove la classe 'attivo' da tutti i pallini e slide
@@ -249,15 +291,11 @@ function initGrimorioCarousel() {
             activeItem.classList.add('attivo'); // Rende la slide visibile (CSS opacity/display)
             activeDot.classList.add('attivo');
 
-            // 3. NUOVA LOGICA CRUCIALE: CALCOLA E APPLICA LO SCORRIMENTO FISICO
-            // Ottiene la larghezza del wrapper per calcolare lo scorrimento
+            // 3. LOGICA CRUCIALE: CALCOLA E APPLICA LO SCORRIMENTO FISICO
             const wrapperWidth = carouselWrapper.clientWidth; 
             const currentIndex = capitoliSequenza.indexOf(slideData);
-            
-            // Calcola lo spostamento necessario (es. -100% per la seconda slide, -200% per la terza)
             const offset = -currentIndex * wrapperWidth; 
 
-            // Applica la trasformazione al carouselContent
             if (carouselContent) {
                 carouselContent.style.transform = `translateX(${offset}px)`;
             }
@@ -268,9 +306,7 @@ function initGrimorioCarousel() {
 
     // Gestisce il passaggio alla slide successiva o precedente
     function changeSlide(direction) {
-        // Cerca la slide attualmente attiva
         const currentActiveItem = document.querySelector('.carousel-item.attivo');
-        // Se non trova una slide attiva all'inizio, assume 'attuale' come punto di partenza
         const currentCapitolo = currentActiveItem ? currentActiveItem.getAttribute('data-capitolo') : 'attuale';
         
         let currentIndex = capitoliSequenza.indexOf(currentCapitolo);
@@ -300,9 +336,16 @@ function initGrimorioCarousel() {
 
     // --- Event Listeners ---
 
+    // Funzione helper per gestire l'interazione manuale e la pausa
+    function handleManualInteraction() {
+        stopAutoplay();
+        isPaused = true;
+    }
+
     // 1. Click sui pallini di navigazione
     navDots.forEach(dot => {
         dot.addEventListener('click', function() {
+            handleManualInteraction();
             const slideToActivate = this.getAttribute('data-slide');
             updateCarousel(slideToActivate);
         });
@@ -310,15 +353,22 @@ function initGrimorioCarousel() {
 
     // 2. Click sui pulsanti freccia
     if (prevButton) {
-        prevButton.addEventListener('click', () => changeSlide('right'));
+        prevButton.addEventListener('click', () => {
+            handleManualInteraction();
+            changeSlide('right');
+        });
     }
     if (nextButton) {
-        nextButton.addEventListener('click', () => changeSlide('left'));
+        nextButton.addEventListener('click', () => {
+            handleManualInteraction();
+            changeSlide('left');
+        });
     }
 
     // 3. Tocco (Swipe) sul contenitore
     if (carouselWrapper) {
         carouselWrapper.addEventListener('touchstart', e => {
+            handleManualInteraction();
             touchstartX = e.changedTouches[0].screenX;
         });
 
@@ -327,10 +377,41 @@ function initGrimorioCarousel() {
             handleGesture();
         });
     }
+    
+    // 4. Pausa/Riavvio al passaggio del mouse (Solo Desktop)
+    if (carouselWrapper) {
+        carouselWrapper.addEventListener('mouseenter', stopAutoplay);
+        carouselWrapper.addEventListener('mouseleave', () => {
+            // Riavvia solo se l'utente non ha messo in pausa manualmente
+            if (isPaused === false) {
+                startAutoplay();
+            }
+        });
+    }
+    
+    // 5. Intersection Observer: Avvia/Ferma l'autoplay quando visibile/nascosto
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Il carosello è visibile
+                if (isPaused === false) {
+                    startAutoplay();
+                }
+            } else {
+                // Il carosello non è visibile
+                stopAutoplay();
+            }
+        });
+    }, { threshold: 0.6 }); // Il 60% del carosello deve essere visibile
 
-    // NUOVO: Inizializza il carosello alla prima slide all'avvio
-    // Questo è fondamentale per assicurare che lo scorrimento sia corretto fin dall'inizio
+    if (carouselWrapper) {
+        observer.observe(carouselWrapper);
+    }
+
+    // Inizializza il carosello alla prima slide all'avvio
     updateCarousel(capitoliSequenza[0]); 
+    
+    // L'autoplay verrà avviato dall'IntersectionObserver quando il carosello entra nella viewport.
 }
 
 // Chiama la funzione di inizializzazione quando il DOM è completamente caricato

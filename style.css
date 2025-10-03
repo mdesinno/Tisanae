@@ -4,10 +4,6 @@
     --crema: #FAF0E6;
     --seppia: #2F1A0C;
     --bordeaux: #800020;
-    --colore-oro: #C0A87A;
-    --colore-oro-scuro: #A37633;
-    --colore-crema: #FAF0E6;
-    --colore-nero-testo: #1e1e1e;
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Lato', sans-serif;
 }
@@ -29,6 +25,11 @@ h1, h2 {
 }
 
 /* -------------------- HEADER: FISSO, TRASFORMATIVO E REATTIVO -------------------- */
+
+/* Impedisce lo scroll del body quando il menu mobile è aperto */
+body.no-scroll {
+    overflow: hidden;
+}
 
 #main-header {
     background-color: transparent;
@@ -113,7 +114,7 @@ background:
     width: 25px;
     height: 3px;
     margin: 5px 0;
-    background-color: var(--seppia);
+    background-color: var(--crema);
     transition: all 0.3s ease;
 }
 
@@ -388,12 +389,12 @@ background:
             rgba(0, 0, 0, 0.1) 100%  /* Ai bordi: nero quasi opaco (80% opacità) */
         ), url('Img/Logo\ Tisanaé\ sfondo\ nero.png') center center no-repeat; /* RIPRISTINATO IL TUO SFONDO GENERALE */
     background-size: cover; 
-    color: var(--colore-crema); 
+    color: var(--crema); 
     text-align: center;
 }
 
 #grimorio-slider h2 {
-    color: var(--colore-oro); 
+    color: var(--oro); 
     margin-bottom: 5px;
 }
 
@@ -423,8 +424,8 @@ background:
     /* Nessun bordo qui, il bordo sarà sulla card stessa per l'effetto fluttuante */
     /* Nessun padding qui, il padding va sulla singola card */
     box-shadow: 10px 10px 30px 0 rgba(255, 255, 255, 0.6); /* Ombra più scura e definita per "staccare" */
-    border-left: 1px solid var(--colore-nero-testo);
-    border-top: 1px solid var(--colore-nero-testo);
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
         transition: transform 0.4s ease-out, box-shadow 0.4s ease-out; /* <-- AGGIUNGI O VERIFICA QUESTO */
     transform: scale(1); /* Stato iniziale */
 }
@@ -497,7 +498,7 @@ background:
 
     /* Stili per l'effetto "Card Staccata" */
     background-color: rgba(20, 20, 20, 0.9); /* Sfondo scuro quasi opaco per la card */
-    border: 1px solid var(--colore-oro-scuro); /* Bordo dorato più visibile */
+    border: 1px solid var(--oro); /* Bordo dorato più visibile */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Ombra più scura e definita per "staccare" */
     
     /* Assicuriamo che la card non si ingrandisca troppo e vada fuori */
@@ -522,7 +523,7 @@ background:
 .carousel-item > * { 
     position: relative;
     z-index: 2; 
-    color: var(--colore-crema); 
+    color: var(--crema); 
 }
 
 .carousel-item.attivo {
@@ -531,7 +532,7 @@ background:
 }
 
 .carousel-item h4 {
-    color: var(--colore-crema);
+    color: var(--crema);
     font-size: 1.8em;
     margin: 10px 0;
 }
@@ -539,8 +540,8 @@ background:
 /* Badge di Stato */
 .status-badge {
     display: inline-block;
-    background-color: var(--colore-oro-scuro);
-    color: var(--colore-nero-testo);
+    background-color: var(--oro);
+    color: #000;
     padding: 5px 10px;
     font-size: 0.8em;
     font-weight: bold;
@@ -571,7 +572,7 @@ background:
 }
 
 .nav-dot.attivo {
-    background-color: var(--colore-oro);
+    background-color: var(--oro);
 }
 
 /* --- Sfondi Specifici per Ogni Box del Carosello --- */
@@ -611,8 +612,8 @@ background:
     
     /* Riprende lo stile del bordo e dell'ombra del carousel-wrapper/item */
     box-shadow: 10px 10px 30px 0 rgba(255, 255, 255, 0.6); /* Ombra dal carousel-wrapper */
-    border-left: 1px solid var(--colore-nero-testo); /* Bordo dal carousel-wrapper */
-    border-top: 1px solid var(--colore-nero-testo); /* Bordo dal carousel-wrapper */
+    border-left: 1px solid #000; /* Bordo dal carousel-wrapper */
+    border-top: 1px solid #000; /* Bordo dal carousel-wrapper */
 
     position: relative; /* Necessario per l'overlay e il z-index */
     overflow: hidden; /* Per contenere l'immagine di sfondo con bordi arrotondati */
@@ -643,7 +644,7 @@ background:
 
 
 .gift-box-area h3 {
-    color: var(--colore-oro); 
+    color: var(--oro); 
     font-size: 2.2em; 
     margin-bottom: 10px;
     position: relative; z-index: 2; /* Sopra l'overlay */
@@ -673,7 +674,7 @@ background:
 }
 
 .gift-box-details h4 {
-    color: var(--colore-crema);
+    color: var(--crema);
     font-size: 1.8em;
     margin: 10px 0;
 }
@@ -733,7 +734,7 @@ background:
 
 .frequenza {
     font-style: italic;
-    color: var(--bordeaux);
+    color: var(--seppia);
     margin-bottom: 20px;
 }
 
@@ -850,7 +851,7 @@ background:
 
 .dettaglio-regalo {
     font-size: 0.9rem;
-    color: var(--bordeaux); /* Colore secondario per il disclaimer */
+    color: var(--seppia); /* Colore secondario per il disclaimer */
     margin-top: 10px;
     font-style: italic;
 }
@@ -871,9 +872,9 @@ background:
 /* --- Sezione La Nostra Storia --- */
 #la-storia {
     padding: 80px 20px;
-    background-color: var(--colore-crema); /* Sfondo chiaro per questa sezione */
+    background-color: var(--crema); /* Sfondo chiaro per questa sezione */
     text-align: center;
-    color: var(--colore-nero-testo); /* Testo scuro su sfondo chiaro */
+    color: #000; /* Testo scuro su sfondo chiaro */
 }
 
 #la-storia h2 {
@@ -916,7 +917,7 @@ background:
 }
 
 .story-item h3 {
-    color: var(--colore-oro); /* Titoli delle card in oro */
+    color: var(--oro); /* Titoli delle card in oro */
     font-size: 1.6em;
     margin-bottom: 15px;
 }
@@ -1103,7 +1104,6 @@ background:
 .footer-logo {
     height: 150px; /* Dimensione del logo nel footer */
     filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.4)); /* Effetto Oro */
-    padding-left: 25px;
 }
 
 .brand-info .slogan-footer {
@@ -1466,7 +1466,7 @@ label.slider.round:before {
         padding: 10px 20px;
         width: 100%;
         text-align: center;
-        color: var(--colore-nero-testo);
+        color: #000;
     }
 
     /* Dai più risalto alla CTA Abbonati nel menu mobile */
@@ -1542,21 +1542,67 @@ label.slider.round:before {
         font-size: 2.2em;
     }
 
-        .cta-actions {
-        flex-direction: column;
+/* --- Media Query per Schermi Piccoli (es. smartphone) --- */
+
+    /* ------------- SEZIONE CTA FINALE (ADATTAMENTI MOBILE) ------------- */
+    #cta-finale h2 {
+        font-size: 2rem; /* Riduci la dimensione del titolo */
     }
-    .giant-cta {
-        width: 90%;
-        max-width: 350px;
-        margin-bottom: 10px;
+
+    #cta-finale p {
+        font-size: 1rem; /* Riduci la dimensione del paragrafo */
+        margin-bottom: 30px; /* Spazio sotto il paragrafo */
     }
+
+    /* Regole per il CONTENITORE dei bottoni principali (.cta-actions) */
     .cta-actions {
-        width: 90%;
-        max-width: 350px;
-        justify-content: center;
-        align-items: center;
-        display: block;
+        display: flex; /* Manteniamo Flexbox attivo */
+        flex-direction: column; /* I bottoni si impilano */
+        justify-content: center; /* Centra verticalmente il contenuto nel flex container (quando column) */
+        align-items: center; /* Centra orizzontalmente gli elementi impilati */
+        gap: 15px; /* Spazio tra i bottoni impilati */
+        
+        /* Centra il blocco .cta-actions sulla pagina e gli dà una dimensione controllata */
+        width: 90%; /* Permetti al contenitore di espandersi orizzontalmente */
+        max-width: 380px; /* Larghezza massima per il blocco di bottoni su mobile/tablet piccolo */
+        margin: 0 auto 40px auto; /* Centra il blocco e aggiunge un buon margine sotto */
+        padding: 0 15px; /* Padding interno per non far toccare i bottoni i bordi */
     }
+
+    /* Regole per TUTTI i bottoni all'interno di .cta-actions */
+    .cta-actions .cta-button { 
+        max-width: 350px; /* Ma con un limite massimo per non essere troppo larghi su tablet */
+        box-sizing: border-box; /* Cruciale: padding e border inclusi nella larghezza */
+        text-align: center; /* Centra il testo all'interno dei bottoni */
+        
+        /* Trasforma i bottoni stessi in flex container per centrare l'icona di WhatsApp */
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+    }
+
+    /* Adattamenti specifici per i singoli tipi di CTA in mobile, ma le regole di larghezza
+       vengono ora dal selettore .cta-actions .cta-button per coerenza. */
+    .primary-cta {
+        padding: 15px 30px; 
+        font-size: 1.1rem;
+    }
+    
+    .giant-cta {
+        /* I suoi stili di larghezza (width, max-width) e il margin-bottom sono ora gestiti
+           dalla regola .cta-actions .cta-button e dal gap del contenitore. */
+        padding: 15px 35px; /* Un padding leggermente più generoso se lo vuoi più grande del primary-cta base mobile */
+        font-size: 1.2rem; /* Mantieni il font leggermente più grande del primary-cta mobile */
+        margin-bottom: 0; /* Rimuovi questo per evitare conflitti con gap */
+    }
+
+    .tertiary-cta {
+        max-width: auto; /* Rendi questo bottone più stretto del giant-cta */
+        /* Anche per questo, larghezza e allineamento sono gestiti da .cta-actions .cta-button */
+        font-size: 1.0rem; /* Regola la dimensione del font se necessario */
+    }
+
+ /* Chiusura della media query */
 
         .newsletter-form {
         flex-direction: column;
