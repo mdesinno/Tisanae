@@ -420,4 +420,62 @@ initGrimorioCarousel();
 // ==================================================================
 // FINE GESTIONE CAROSELLO
 // ==================================================================
+
+// ==================================================================
+    // 6. GESTIONE FORM NEWSLETTER (INVIO AJAX + FEEDBACK INLINE)
+    // ==================================================================
+    const newsletterForm = document.querySelector('.newsletter-form');
+    const newsletterFeedback = document.getElementById('newsletter-feedback');
+
+    if (newsletterForm && newsletterFeedback) {
+        newsletterForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Impedisce il ricaricamento della pagina
+            
+            // Rimuovi eventuali classi di feedback precedenti
+            newsletterFeedback.classList.remove('success', 'error');
+            newsletterFeedback.style.opacity = 0;
+            newsletterFeedback.style.maxHeight = '0';
+            newsletterFeedback.innerHTML = ''; // Pulisci il messaggio precedente
+
+            const emailInput = newsletterForm.querySelector('input[type="email"]');
+            const email = emailInput.value;
+            const formData = new URLSearchParams();
+            formData.append('form-name', 'newsletter'); // Importante per Netlify
+            formData.append('email', email);
+
+            try {
+                // Invio dei dati a Netlify.
+                // Netlify processa le submission dei form con data-netlify="true" tramite POST
+                // all'URL della pagina corrente o all'action specificato.
+                // Usando fetch con l'URL della pagina, Netlify lo intercetta.
+                const response = await fetch('/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: formData.toString()
+                });
+
+                if (response.ok) {
+                    newsletterFeedback.classList.add('success');
+                    newsletterFeedback.innerHTML = 'Iscrizione confermata. Grazie!';
+                    emailInput.value = ''; // Pulisci l'input dopo il successo
+                } else {
+                    // Netlify Forms risponde con 200 OK anche in caso di errori interni del form,
+                    // quindi questa parte potrebbe essere difficile da testare senza errori di rete.
+                    // Per errori specifici, si dovrebbe usare Netlify Functions.
+                    newsletterFeedback.classList.add('error');
+                    newsletterFeedback.innerHTML = 'C\'è stato un problema. Riprova più tardi.';
+                }
+            } catch (error) {
+                console.error('Errore nell\'invio del form:', error);
+                newsletterFeedback.classList.add('error');
+                newsletterFeedback.innerHTML = 'C\'è stato un problema di rete. Riprova più tardi.';
+            } finally {
+                // Mostra il messaggio con un piccolo ritardo per l'animazione
+                setTimeout(() => {
+                    newsletterFeedback.style.opacity = 1;
+                    newsletterFeedback.style.maxHeight = '100px'; // Assicurati che l'altezza sia sufficiente
+                }, 50); // Piccolo ritardo
+            }
+        });
+    }
 });

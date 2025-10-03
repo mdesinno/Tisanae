@@ -1080,6 +1080,42 @@ background:
     background-color: var(--oro);
 }
 
+/* Stili per il messaggio di feedback della newsletter */
+.newsletter-feedback {
+    margin-top: 15px; /* Spazio sopra il messaggio */
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--seppia); /* Colore testo default */
+    background-color: var(--crema); /* Sfondo default */
+    opacity: 0; /* Inizialmente nascosto */
+    max-height: 0; /* Inizialmente altezza zero */
+    overflow: hidden; /* Nasconde il contenuto quando altezza zero */
+    transition: opacity 0.5s ease-out, max-height 0.5s ease-out, padding 0.5s ease-out, margin-top 0.5s ease-out; /* Animazione */
+}
+
+/* Stile per messaggio di successo */
+.newsletter-feedback.success {
+    background-color: var(--oro); /* Sfondo verde per successo */
+    color: var(--nero); /* Testo scuro per contrasto */
+    opacity: 1; /* Rendi visibile */
+    max-height: 100px; /* Altezza massima per mostrare il messaggio */
+    padding: 10px 15px; /* Ri-applica padding quando visibile */
+    margin-top: 15px; /* Ri-applica margin-top quando visibile */
+}
+
+/* Stile per messaggio di errore (opzionale) */
+.newsletter-feedback.error {
+    background-color: #dc3545; /* Sfondo rosso per errore */
+    color: #fff; /* Testo bianco */
+    opacity: 1;
+    max-height: 100px;
+    padding: 10px 15px;
+    margin-top: 15px;
+}
+
 /* -------------------- 9. FOOTER -------------------- */
 
 footer {
