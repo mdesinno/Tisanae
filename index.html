@@ -384,7 +384,7 @@
         
             <hr class="oro-divider-small"> <div class="newsletter-signup">
                 <p class="newsletter-slogan">Non vuoi impegnarti subito? Iscriviti alla newsletter e ricevi il tuo Capitolo Gratuito del Grimorio nella tua inbox.</p>
-                <form name="newsletter" method="POST" data-netlify="true" class="newsletter-form">
+                <form name="newsletter" method="POST" action="/.netlify/functions/handle-newsletter" class="newsletter-form">
                     <input type="email" name="email" placeholder="Il tuo indirizzo email..." required>
                     <button type="submit" class="cta-button quartiary-cta">Iscriviti</button>
                 </form>

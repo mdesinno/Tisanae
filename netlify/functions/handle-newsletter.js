@@ -16,8 +16,7 @@ exports.handler = async (event) => {
     }
 
     try {
-        // Parse dei dati del form inviati da Netlify
-        // Netlify invia i dati del form come application/x-www-form-urlencoded
+        // Parse dei dati del form inviati dal browser (action="/.netlify/functions/handle-newsletter")
         const formData = new URLSearchParams(event.body);
         const email = formData.get('email'); // Prendi l'email dal form
 
@@ -30,7 +29,7 @@ exports.handler = async (event) => {
 
         // --- Autenticazione con Google Sheets API ---
         const credentials = JSON.parse(GOOGLE_SERVICE_ACCOUNT_CREDENTIALS);
-
+        
         const auth = new google.auth.GoogleAuth({
             credentials,
             scopes: ['https://www.googleapis.com/auth/spreadsheets'], // Scope per Sheets
@@ -51,14 +50,17 @@ exports.handler = async (event) => {
         });
 
         // I valori da aggiungere al foglio (in base alle tue intestazioni: Data, Email)
-        // Nota: l'ordine dei valori qui [formattedDate, email] deve corrispondere all'ordine delle tue intestazioni
-        const values = [[formattedDate, email]]; // Mappa a colonne A (Data) e B (Email)
+        const values = [[formattedDate, email]];
+
+        // Prepara il range A1-notation, quotando il nome del foglio se contiene spazi
+        const sheetTab = GOOGLE_SHEET_NAME;
+        const a1Range = (sheetTab.includes(' ') ? `'${sheetTab}'` : sheetTab) + '!A:B';
 
         await sheets.spreadsheets.values.append({
             spreadsheetId: GOOGLE_SHEET_ID,
-            range: `${GOOGLE_SHEET_NAME}!A:B`, // Specifica il range di colonne dove scrivere (da A a B)
-            valueInputOption: 'USER_ENTERED', // Interpreta i valori come l'utente li scriverebbe
-            insertDataOption: 'INSERT_ROWS', // Inserisce una nuova riga
+            range: a1Range, // Usa la variabile a1Range qui
+            valueInputOption: 'USER_ENTERED',
+            insertDataOption: 'INSERT_ROWS',
             resource: {
                 values: values,
             },
