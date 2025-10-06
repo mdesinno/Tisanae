@@ -96,35 +96,83 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(item);
     });
 
-    // ==================================================================
-    // 4. GESTIONE COOKIE CONSENT (Accetta, Rifiuta, Personalizza)
-    // ==================================================================
+// ==================================================================
+// 4. GESTIONE COOKIE CONSENT (Accetta, Rifiuta, Personalizza)
+// ==================================================================
 
-    // ------------------------------------------------------------------
+// === VARIABILI GLOBALI PER GLI ID ===
+const GA4_ID = 'G-ZSH2CM6EGD'; // Il tuo ID GA4 reale
+const PIXEL_ID = 'YOUR_PIXEL_ID'; // IL TUO ID Meta Pixel (da inserire quando lo crei)
+const TIKTOK_PIXEL_ID = 'YOUR_TIKTOK_PIXEL_ID'; // Manteniamo la costante ID qui per pulizia
+
+
+// ------------------------------------------------------------------
 // A. FUNZIONI CHIAVE
 // ------------------------------------------------------------------
 
 // 1. Funzione che abilita i servizi in base alle preferenze
 function caricaServiziTracciamento(prefs) {
     // Carica le preferenze dall'storage se non fornite (ovvero, al caricamento pagina)
+    // Ho aggiunto il controllo if (typeof window.gtag === 'undefined') e if (typeof window.fbq === 'undefined')
+    // per assicurarci che gli script vengano caricati una sola volta.
     prefs = prefs || JSON.parse(localStorage.getItem(preferencesName)) || { analytics: false, marketing: false }; 
 
+    // --- Servizi di Statistiche (Google Analytics) ---
     if (prefs.analytics) {
-        // *** INSERISCI QUI IL TUO CODICE GOOGLE ANALYTICS O GTM ***
-        console.log("Servizi di Analisi/Statistiche caricati.");
-        /* Esempio di caricamento GTM dinamico:
-        const scriptGTM = document.createElement('script');
-        scriptGTM.src = 'https://www.googletagmanager.com/gtag/js?id=GTM-XXXXXX';
-        scriptGTM.async = true;
-        document.head.appendChild(scriptGTM);
-        */
+        console.log("Servizi di Analisi/Statistiche (GA4) caricati.");
+        
+        if (typeof window.gtag === 'undefined') { // Carica lo script solo la prima volta
+            const scriptGA4 = document.createElement('script');
+            scriptGA4.async = true;
+            scriptGA4.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`;
+            document.head.appendChild(scriptGA4);
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            
+            // Inizializza GA4: anonimizzazione IP per GDPR
+            gtag('config', GA4_ID, { 'anonymize_ip': true });
+        } else {
+            // Se gtag esiste già (utente ha ricaricato la pagina con consenso ON), chiama solo config
+            gtag('config', GA4_ID, { 'anonymize_ip': true });
+        }
     }
     
+    // --- Servizi di Marketing (unificati) ---
     if (prefs.marketing) {
-        // *** INSERISCI QUI IL TUO CODICE META PIXEL/PROFILAZIONE ***
-        console.log("Servizi di Marketing caricati.");
+        console.log("Servizi di Marketing (Meta e TikTok) caricati.");
+
+                // --- META PIXEL ---
+        if (typeof window.fbq === 'undefined') { // Carica lo script solo la prima volta
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        }
+        
+        fbq('init', PIXEL_ID); 
+        fbq('track', 'PageView');
+
+                // --- TIKTOK PIXEL ---
+        if (typeof window.ttq === 'undefined') { 
+            !function (w, d, t) {
+                w.TiktokAnalyticsObject = t; var ttq = w[t] = w[t] || [];
+                ttq.methods = ["page", "track", "identify", "instances", "load", "ready", "pageLoad", "trackEvents", "debug", "on", "off", "once", "setAndTrack", "t", "enableCookie"];
+                ttq.setAndTrack = function (t, e) { ttq.set(t), ttq.track(e) };
+                ttq.load = function (t, e) { var n = "https://analytics.tiktok.com/i18n/pixel/events.js"; ttq._i = ttq._i || {}; ttq._i[t] = { tid: t, mayViewThrough: !(e.mayViewThrough = !(e.mayViewThrough = e.mayViewThrough || !0)), isTT: !e.isTT }; ttq._i[t].load = !0; ttq._i[t].loadTime = (new Date).getTime(); ttq._i[t].loadTimeDiff = 0; n = e.host || n; ttq._i[t].host = n; ttq.push({ event: "load", arguments: [t, e] }); var s = d.createElement(t); s.type = "text/javascript", s.async = !0, s.src = n, d.head.appendChild(s); };
+                ttq.page = function (e) { ttq.push({ event: "page", arguments: [e] }); }; var n = w.location.pathname, s = w.location.search, r = w.location.hash; n && ttq.page(n.replace(/(^\/)|\/$/g, "") + s.replace(/(^\/)|\/$/g, "") + r.replace(/(^\/)|\/$/g, ""));
+            }(window, document, 'ttq');
+        }
+        ttq.load(TIKTOK_PIXEL_ID);
+        ttq.page();
     }
 }
+// ... (Il resto del tuo script rimane invariato)
 
 // 2. Funzione che apre il pannello e carica lo stato precedente
 function apriPannelloPersonalizzazione() {
