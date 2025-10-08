@@ -536,4 +536,261 @@ try {
         }
     });
 }
+
+
+
+// ==================================================================
+// 7. SHOP E CARRELLO (IMPLEMENTAZIONE COMPLETA)
+// ==================================================================
+
+// === VARIABILI MODALE SHOP ===
+const productModal = document.getElementById('product-modal');
+const buyNowBtn = document.getElementById('buy-now-btn');
+const addToCartBtn = document.getElementById('add-to-cart-btn');
+const notifyBtn = document.getElementById('notify-btn');
+const productQtyInput = document.getElementById('product-qty');
+const cartCountSpan = document.getElementById('cart-count'); 
+
+// Dati di esempio per i prodotti (ORA CON TUTTI E 4 I PRODOTTI)
+const productsData = {
+    'box-dee-della-luna': {
+        id: 'box-dee-della-luna',
+        name: 'Box Dee della Luna',
+        price: 39.90,
+        status: 'available',
+        description: 'La box definitiva per affrontare il freddo con un mix di spezie calde, cannella e zenzero. Perfetta per le serate davanti al camino.',
+        contents: ['Infuso alla Cannella (50g)', 'Tisana Zenzero e Limone (50g)', 'Mug in Ceramica a tema', 'Breve guida alle ricette autunnali'],
+        images: ['Img/Box Dee.png', 'Img/Box Samurai.png']
+    },
+    'box-samurai': {
+        id: 'box-samurai',
+        name: 'Box Risveglio di Primavera (Samurai)',
+        price: 29.90,
+        status: 'refill',
+        description: 'Una box fresca e leggera, pensata per energizzare e disintossicare. Include erbe aromatiche e note floreali delicate.',
+        contents: ['Infuso alla Menta (50g)', 'Tisana Fiori di Campo (50g)', 'Filtri riutilizzabili', 'Breve guida al benessere primaverile'],
+        images: ['Img/Box Samurai.png', 'Img/Box Samurai.png']
+    },
+    'box-druidi': { // PRODOTTO CLONATO
+        id: 'box-druidi',
+        name: 'Box I Druidi',
+        price: 39.90,
+        status: 'available',
+        description: 'Un rito di purificazione con erbe purificanti e terrene (Salvia, Menta). Contiene il Mini Mortaio in legno d\'ulivo.',
+        contents: ['Infuso alla Salvia (50g)', 'Tisana Menta e Limone (50g)', 'Mortaio in legno', 'Breve guida ai rituali dei Boschi'],
+        images: ['Img/Box Druidi.png', 'Img/Box Druidi.png']
+    },
+    'box-autunno': { // PRODOTTO CLONATO
+        id: 'box-autunno',
+        name: 'Box Antiche Dee (Autunno)',
+        price: 39.90,
+        status: 'refill',
+        description: 'La box definitiva per affrontare il freddo con un mix di spezie calde, cannella e zenzero. Perfetta per le serate davanti al camino.',
+        contents: ['Infuso alla Cannella (50g)', 'Tisana Zenzero e Limone (50g)', 'Mug in Ceramica a tema', 'Breve guida alle ricette autunnali'],
+        images: ['Img/Box Dee.png', 'Img/Box Dee.png']
+    }
+};
+
+// Array per il carrello (ora gestito da localStorage)
+let cart = []; 
+
+// ------------------------------------------------------------------
+// A. GESTIONE PERSISTENZA CARRELLO (localStorage)
+// ------------------------------------------------------------------
+
+function loadCart() {
+    const storedCart = localStorage.getItem('tisanae_shopping_cart');
+    cart = storedCart ? JSON.parse(storedCart) : [];
+}
+
+function saveCart() {
+    localStorage.setItem('tisanae_shopping_cart', JSON.stringify(cart));
+}
+
+function updateCartCount() {
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (cartCountSpan) { 
+        cartCountSpan.textContent = totalItems;
+    }
+    // Aggiorna anche l'elemento nella pagina carrello (se presente)
+    const cartPageCount = document.getElementById('cart-page-count');
+    if (cartPageCount) {
+        cartPageCount.textContent = totalItems;
+    }
+}
+
+// ------------------------------------------------------------------
+// B. GESTIONE MODALE E TAB PRODOTTI
+// ------------------------------------------------------------------
+
+function openModal(productId) {
+    const product = productsData[productId];
+    if (!product) {
+        console.error('Prodotto non trovato:', productId);
+        return;
+    }
+
+    // 1. Inietta i dati statici
+    document.getElementById('modal-title').textContent = product.name;
+    document.getElementById('modal-price').textContent = `€ ${product.price.toFixed(2)}`;
+    document.getElementById('modal-description').textContent = product.description;
+
+    // 2. Inietta il Contenuto
+    const contentsList = document.getElementById('modal-contents');
+    contentsList.innerHTML = product.contents.map(item => `<li>${item}</li>`).join('');
+
+    // 3. Gestione Carosello Immagini
+    const carouselInner = productModal.querySelector('.carousel-inner'); 
+    carouselInner.innerHTML = product.images.map((imgSrc, index) => `
+        <div class="carousel-item ${index === 0 ? 'active' : ''}">
+            <img src="${imgSrc}" class="d-block w-100" alt="${product.name} - Immagine ${index + 1}">
+        </div>
+    `).join('');
+    
+    // 4. Gestione Tasti CTA in base allo Status
+    if (product.status === 'available') {
+        buyNowBtn.style.display = 'block';
+        addToCartBtn.style.display = 'block';
+        productQtyInput.disabled = false;
+        notifyBtn.style.display = 'none';
+        
+        // Collega gli eventi con l'ID prodotto corretto
+        buyNowBtn.onclick = () => handleBuyNow(productId, parseInt(productQtyInput.value));
+        addToCartBtn.onclick = () => handleAddToCart(productId, parseInt(productQtyInput.value));
+
+    } else if (product.status === 'refill') {
+        buyNowBtn.style.display = 'none';
+        addToCartBtn.style.display = 'none';
+        productQtyInput.disabled = true;
+        notifyBtn.style.display = 'block';
+
+        notifyBtn.onclick = () => openNotifyModal(productId); 
+    }
+
+    // 5. Apri la Modale (Fix: assicurati che sia il container a cambiare display)
+    productModal.style.display = 'block';
+    
+    // Reset Quantity
+    productQtyInput.value = 1;
+    
+    // Mostra il Tab Info di default
+    showTab('info'); 
+}
+
+function closeModal() {
+    productModal.style.display = 'none';
+}
+
+function showTab(tabId) {
+    // Gestione Active Class sui link
+    document.querySelectorAll('.nav-tabs .nav-link').forEach(link => {
+        if (link.dataset.tab === tabId) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+
+    // Gestione visualizzazione dei pannelli
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+    });
+    document.getElementById(`tab-${tabId}`).classList.add('active');
+}
+
+// ------------------------------------------------------------------
+// C. FUNZIONI CARRELLO
+// ------------------------------------------------------------------
+
+function handleAddToCart(productId, quantity) {
+    const product = productsData[productId];
+    quantity = parseInt(quantity) || 1; 
+
+    if (!product || quantity <= 0) return;
+
+    let itemFound = false;
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].productId === productId) {
+            cart[i].quantity += quantity;
+            itemFound = true;
+            break;
+        }
+    }
+
+    if (!itemFound) {
+        cart.push({ productId, quantity, price: product.price, name: product.name, image: product.images[0] });
+    }
+
+    saveCart(); 
+    updateCartCount();
+    closeModal();
+    alert(`${quantity} pz di "${product.name}" aggiunti al carrello!`);
+    
+    // Reindirizza alla pagina carrello dopo un breve ritardo per feedback visivo
+    // setTimeout(() => { window.location.href = 'cart.html'; }, 500); 
+}
+
+function handleBuyNow(productId, quantity) {
+    const product = productsData[productId];
+    if (!product || quantity <= 0) return;
+
+    // Svuota il carrello attuale e aggiunge solo questo articolo per il checkout veloce
+    cart = [{ productId, quantity: parseInt(quantity) || 1, price: product.price, name: product.name, image: product.images[0] }];
+    saveCart();
+    updateCartCount();
+
+    alert(`Procedo al Checkout Veloce per ${quantity} pz di "${product.name}".`); 
+    closeModal();
+    // Reindirizza al checkout
+    // window.location.href = '/checkout-stripe.html'; 
+}
+
+function openNotifyModal(productId) {
+    alert(`Apro la modale per la notifica email per ${productId}.`);
+    closeModal();
+}
+
+
+// ------------------------------------------------------------------
+// D. ASSEGNAZIONE EVENTI E INIZIALIZZAZIONE
+// ------------------------------------------------------------------
+
+// Inizializza il carrello al caricamento
+loadCart();
+updateCartCount();
+
+// Listener per i click sulle card prodotto (SOLO NELLA PAGINA SHOP)
+if (document.querySelector('#product-grid-wrapper')) {
+    document.querySelectorAll('.product-card-wrapper .card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Evita di aprire la modale se l'utente clicca su un bottone interno (se fossero implementati)
+            if (!e.target.closest('button')) {
+                const productId = card.parentElement.dataset.productId;
+                openModal(productId);
+            }
+        });
+    });
+}
+
+// Listener per la navigazione a schede nella modale
+document.querySelectorAll('.nav-tabs .nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showTab(e.target.dataset.tab);
+    });
+});
+
+// Chiudi la modale cliccando sul bottone X o fuori
+const closeButton = document.querySelector('.close-button');
+if (closeButton) {
+    closeButton.onclick = closeModal;
+}
+window.addEventListener('click', (event) => {
+    if (event.target === productModal) {
+        closeModal();
+    }
+});
+// ==================================================================
+// FINE GESTIONE SHOP E CARRELLO
+// ==================================================================
 });

@@ -1688,3 +1688,436 @@ label.slider.round:before {
         margin-bottom: 10px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===================================== */
+/* SHOP PAGE STYLES */
+/* ===================================== */
+/* --- NUOVI STILI AGGIUNTI PER LA PAGINA SHOP --- */
+
+/* Hero Section per la pagina Shop */
+#shop-hero {
+    /* Sfondo scuro e testata impattante, in linea con il tuo brand */
+    background-color: var(--seppia); 
+    color: var(--crema); 
+    padding: 150px 0 80px 0; 
+    text-align: center;
+    /* Usa un'immagine coerente con la tua estetica */
+    background-image: url('Img/Gift\ Box.png'); 
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    /* Overlay scuro per migliorare la leggibilità, se usi un'immagine chiara */
+    box-shadow: inset 0 0 0 1000px rgba(47, 26, 12, 0.6); /* 60% opacità del Seppia */
+}
+
+/* Ripristina lo stile del titolo h1 del tuo tema */
+#shop-hero h1 {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    color: var(--oro); /* Titolo in Oro */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+#shop-hero .hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+    color: var(--crema); /* Sottotitolo in Crema */
+}
+
+.shop-cta {
+    margin-top: 30px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    #shop-hero {
+        padding: 120px 0 60px 0;
+        margin-top: 60px; /* Adjust margin for mobile header */
+    }
+    #shop-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    #product-grid-wrapper {
+    /* Centra il contenitore sulla pagina */
+    margin: 0 auto; 
+    /* Su Mobile, usa il 90% della larghezza */
+    width: 90%; 
+}
+
+#product-grid {
+    /* Su Mobile: una sola colonna */
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 30px; 
+}
+}
+
+/* Anchor Point fix: per il corretto scroll del bottone */
+#product-grid-anchor {
+    display: block;
+    position: relative;
+    visibility: hidden;
+}
+
+/* Modifica il titolo della sezione prodotti sotto la Hero */
+main h2 {
+    font-family: var(--font-serif);
+    color: var(--seppia); /* Usa Sepia per H2 interni */
+    font-size: 2.5rem;
+    margin-bottom: 40px !important;
+    text-shadow: none;
+}
+/* Regola la spaziatura generale della sezione principale sotto la Hero */
+body main.container {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+    margin: 50px;
+}
+
+/* Stile per il link "Shop" nella navbar */
+.shop-nav-link {
+    font-weight: bold; /* Per evidenziare */
+    color: var(--primary-color); /* o il colore che usi per i link attivi/evidenziati */
+    /* Potresti aggiungere background o border se vuoi un effetto più pronunciato */
+}
+
+/* Stile per l'icona del carrello nella navbar */
+.cart-nav-link {
+    display: flex; /* Per allineare icona e conteggio */
+    align-items: center;
+    gap: 5px; /* Spazio tra icona e numero */
+    font-weight: bold;
+}
+
+/* Contenitore principale della griglia prodotti */
+#product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 2 colonne desktop, si adatta */
+    gap: 30px; /* Spazio tra le card */
+}
+
+#product-grid-wrapper {
+        /* Su Desktop: limita la larghezza massima al 60% */
+        width: 90%; 
+        /* Centra il blocco orizzontalmente */
+        margin: 0 auto; 
+        /* Aumenta il margine per distaccare un po' dagli H2/H1 */
+        padding: 20px 0;
+    }
+
+    #product-grid {
+        /* Su Desktop: due colonne uguali all'interno del 60% */
+        grid-template-columns: 1fr 1fr;
+        gap: 40px; 
+    }
+
+@media (min-width: 768px) {
+    #product-grid {
+        grid-template-columns: repeat(3, 1fr); /* 2 colonne su schermi medi/desktop */
+    }
+}
+
+
+/* Stile Card Prodotto */
+.card {
+    cursor: pointer;
+    overflow: hidden; 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    position: relative;
+    border: none !important; 
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+}
+
+.card:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); 
+}
+
+.card-img-top {
+    height: 250px; 
+    object-fit: cover; 
+    border-radius: 10px;
+    border: 1px solid var(--oro);
+    margin: 20px auto auto auto;
+    display: flex;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card-img-top:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); 
+
+}
+
+.card-body {
+    text-align: center;
+}
+
+.card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #333; 
+    margin: 10px;
+}
+
+.card-price {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--oro); 
+    margin: 10px;
+}
+
+.card-text {
+    font-size: 0.95rem;
+    color: var(--seppia);
+    min-height: 40px; 
+    margin-bottom: 0;
+}
+
+/* Tag Stato "Disponibile" / "In Rifornimento" */
+.product-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 6px 12px;
+    border-radius: 20px; 
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: white;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.product-status.available {
+    background-color: var(--bordeaux); 
+}
+
+.product-status.refill {
+    background-color: var(--oro); 
+    color: #343a40; 
+}
+
+/* Pulsanti nelle card */
+.card .btn {
+    margin: 15px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.shop-cta {
+    margin: 0 auto 20px auto;
+}
+
+/* Paginazione */
+.pagination .page-link {
+    color: #007bff; 
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-item.active .page-link,
+.pagination .page-link:hover {
+    background-color: #007bff; 
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+/* ===================================== */
+/* MODALE PRODOTTO STYLES */
+/* ===================================== */
+
+.modal-overlay {
+    display: none; 
+    position: fixed;
+    z-index: 1050; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; 
+    background-color: rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease-out; 
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.product-modal-content { /* CLASSE MODIFICATA PER EVITARE CONFLITTI CON IL TUO .modal-content ESISTENTE */
+    background-color: #fff;
+    margin: 3% auto; 
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 95%; 
+    max-width: 1000px; 
+    position: relative;
+    animation: slideIn 0.3s ease-out; 
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-button {
+    color: #666;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
+    font-weight: normal; 
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease-in-out;
+}
+.close-button:hover {
+    color: #333;
+}
+
+#modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#modal-price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #28a745; 
+    margin-bottom: 25px;
+}
+
+/* Area info e bottoni nella modale */
+.modal-info-area {
+    padding-left: 30px; 
+}
+@media (max-width: 767.98px) {
+    .modal-info-area {
+        padding-left: 15px;
+        padding-top: 25px; 
+    }
+}
+
+/* Carosello Immagini nella modale */
+#modal-carousel {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden; 
+    min-height: 300px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#modal-carousel img {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    object-fit: contain; 
+}
+
+/* Tabs nella modale */
+.nav-tabs {
+    border-bottom: 1px solid #e9ecef; 
+    margin-bottom: 20px;
+}
+.nav-tabs .nav-item .nav-link {
+    color: #6c757d;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease-in-out;
+    padding: 10px 15px;
+    font-weight: 500;
+}
+.nav-tabs .nav-item .nav-link:hover {
+    color: #495057;
+    border-color: #adb5bd;
+}
+.nav-tabs .nav-item .nav-link.active {
+    color: #333; 
+    border-color: #007bff; 
+    background-color: transparent;
+}
+
+.tab-pane {
+    display: none;
+    animation: fadeTabIn 0.3s ease-out;
+}
+.tab-pane.active {
+    display: block;
+}
+@keyframes fadeTabIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#modal-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+#modal-contents li {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-left: 20px;
+    list-style-type: disc; 
+}
+
+/* Selettore Quantità */
+#modal-qty-selector .form-control {
+    width: 80px !important; 
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Pulsanti Azione nella modale */
+#modal-actions .btn {
+    font-size: 1.2rem;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#modal-actions .btn-success {
+    background-color: #28a745; 
+    border-color: #28a745;
+}
+#modal-actions .btn-primary {
+    background-color: #007bff; 
+    border-color: #007bff;
+}
+#modal-actions .btn-warning {
+    background-color: #ffc107; 
+    border-color: #ffc107;
+    color: #343a40; 
+}
